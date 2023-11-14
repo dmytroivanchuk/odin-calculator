@@ -1,0 +1,43 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bezel {
+  position: fixed;
+}
+
+@media (min-aspect-ratio: 0.504) {
+  .bezel {
+    height: 100%;
+  }
+
+  .container {
+    height: 92.3%;
+  }
+}
+
+@media (max-aspect-ratio: 0.504) {
+  .bezel {
+    width: 100%;
+  }
+
+  .container {
+    width: 84.56%;
+  }
+}
+
+.container {
+  background-color: #000;
+  aspect-ratio: 0.4613734;
+  border-radius: 5%;
+}
