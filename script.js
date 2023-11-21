@@ -41,22 +41,28 @@ function divide() {
 
 const buttons = document.querySelector(".button-container");
 buttons.addEventListener("click", (event) => {
+  const button = event.target;
   const buttonId = event.target.id;
   switch (buttonId) {
     case "clear":
       handleClear();
+      addTapAnimation(button);
       break;
     case "+/-":
       handleChangeSign();
+      addTapAnimation(button);
       break;
     case "%":
       handlePercent();
+      addTapAnimation(button);
       break;
     case ".":
       handleDot();
+      addTapAnimation(button);
       break;
     case "=":
       handleEquals();
+      addTapAnimation(button);
       break;
     case "/":
     case "*":
@@ -75,17 +81,33 @@ buttons.addEventListener("click", (event) => {
     case "9":
     case "0":
       handleNumber(buttonId);
+      addTapAnimation(button);
   }
 });
 
 function handleClear() {
   if (calculationState === "unfinished") {
-    if (operand2 != "") {
+    if (operand2 != "" && operand2 != "0") {
       operand2 = "0";
       output.textContent = operand2;
+      addSelectAnimation();
     } else {
+      if (operator != "") {
+        let button = document.getElementById(operator);
+        button.classList.remove("select");
+        button.classList.add("unselect");
+
+        setTimeout(function () {
+          button.classList.remove("unselect");
+        }, 250);
+
+        operator = "";
+      }
       operand1 = "0";
       output.textContent = operand1;
+
+      let button = document.getElementById("clear");
+      button.textContent = "AC";
     }
   } else {
     operand1 = "0";
@@ -93,6 +115,9 @@ function handleClear() {
     operand2 = "";
     calculationState = "unfinished";
     output.textContent = operand1;
+
+    let button = document.getElementById("clear");
+    button.textContent = "AC";
   }
 }
 
@@ -103,11 +128,20 @@ function handlePercent() {}
 function handleDot() {}
 
 function handleEquals() {
-  if (operand2 === "") {
-    operand2 = operand1;
+  if (operator != "") {
+    if (operand2 === "") {
+      operand2 = operand1;
+      let button = document.getElementById(operator);
+      button.classList.remove("select");
+      button.classList.add("unselect");
+
+      setTimeout(function () {
+        button.classList.remove("unselect");
+      }, 250);
+    }
+    operate();
+    calculationState = "finished";
   }
-  operate();
-  calculationState = "finished";
 }
 
 function handleOperator(op) {
@@ -121,6 +155,7 @@ function handleOperator(op) {
     }
   }
   operator = op;
+  addSelectAnimation();
 }
 
 function handleNumber(number) {
@@ -145,4 +180,33 @@ function handleNumber(number) {
       output.textContent = operand1;
     }
   }
+
+  if (operator != "") {
+    let button = document.getElementById(operator);
+    if (button.classList.contains("select")) {
+      button.classList.remove("select");
+      button.classList.add("unselect");
+
+      setTimeout(function () {
+        button.classList.remove("unselect");
+      }, 250);
+    }
+  }
+
+  let button = document.getElementById("clear");
+  if ((button.textContent = "AC")) {
+    button.textContent = "C";
+  }
+}
+
+function addTapAnimation(button) {
+  button.classList.add("tap");
+  setTimeout(function () {
+    button.classList.remove("tap");
+  }, 500);
+}
+
+function addSelectAnimation() {
+  let button = document.getElementById(operator);
+  button.classList.add("select");
 }
