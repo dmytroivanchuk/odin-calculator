@@ -24,19 +24,115 @@ function operate() {
 }
 
 function add() {
-  return Number(operand1) + Number(operand2);
+  const result = Number(operand1) + Number(operand2);
+  const strResult = result.toString();
+
+  if (strResult.length > 7) {
+    if (strResult.includes(".")) {
+      const strResultParts = strResult.split(".");
+      const strResultIntegerPart = strResultParts[0];
+
+      if (strResultIntegerPart.length <= 7) {
+        const resultRounded = result.toFixed(7 - strResultIntegerPart.length);
+        const strResultRounded = resultRounded.toString();
+        return strResultRounded;
+      } else {
+        const resultExp = result.toExponential(2);
+        const strResultExp = resultExp.toString();
+        return strResultExp;
+      }
+    } else {
+      const resultExp = result.toExponential(2);
+      const strResultExp = resultExp.toString();
+      return strResultExp;
+    }
+  } else {
+    return strResult;
+  }
 }
 
 function subtract() {
-  return Number(operand1) - Number(operand2);
+  const result = Number(operand1) - Number(operand2);
+  const strResult = result.toString();
+
+  if (strResult.length > 7) {
+    if (strResult.includes(".")) {
+      const strResultParts = strResult.split(".");
+      const strResultIntegerPart = strResultParts[0];
+
+      if (strResultIntegerPart.length <= 7) {
+        const resultRounded = result.toFixed(7 - strResultIntegerPart.length);
+        const strResultRounded = resultRounded.toString();
+        return strResultRounded;
+      } else {
+        const resultExp = result.toExponential(2);
+        const strResultExp = resultExp.toString();
+        return strResultExp;
+      }
+    } else {
+      const resultExp = result.toExponential(2);
+      const strResultExp = resultExp.toString();
+      return strResultExp;
+    }
+  } else {
+    return strResult;
+  }
 }
 
 function multiply() {
-  return Number(operand1) * Number(operand2);
+  const result = Number(operand1) * Number(operand2);
+  const strResult = result.toString();
+
+  if (strResult.length > 7) {
+    if (strResult.includes(".")) {
+      const strResultParts = strResult.split(".");
+      const strResultIntegerPart = strResultParts[0];
+
+      if (strResultIntegerPart.length <= 7) {
+        const resultRounded = result.toFixed(7 - strResultIntegerPart.length);
+        const strResultRounded = resultRounded.toString();
+        return strResultRounded;
+      } else {
+        const resultExp = result.toExponential(2);
+        const strResultExp = resultExp.toString();
+        return strResultExp;
+      }
+    } else {
+      const resultExp = result.toExponential(2);
+      const strResultExp = resultExp.toString();
+      return strResultExp;
+    }
+  } else {
+    return strResult;
+  }
 }
 
 function divide() {
-  return Number(operand1) / Number(operand2);
+  const result = Number(operand1) / Number(operand2);
+  const strResult = result.toString();
+
+  if (strResult.length > 7) {
+    if (strResult.includes(".")) {
+      const strResultParts = strResult.split(".");
+      const strResultIntegerPart = strResultParts[0];
+
+      if (strResultIntegerPart.length <= 7) {
+        const resultRounded = result.toFixed(7 - strResultIntegerPart.length);
+        const strResultRounded = resultRounded.toString();
+        return strResultRounded;
+      } else {
+        const resultExp = result.toExponential(2);
+        const strResultExp = resultExp.toString();
+        return strResultExp;
+      }
+    } else {
+      const resultExp = result.toExponential(2);
+      const strResultExp = resultExp.toString();
+      return strResultExp;
+    }
+  } else {
+    return strResult;
+  }
 }
 
 const buttons = document.querySelector(".button-container");
@@ -121,11 +217,113 @@ function handleClear() {
   }
 }
 
-function handleChangeSign() {}
+function handleChangeSign() {
+  if (calculationState === "finished") {
+    if (operand1[0] === "-") {
+      operand1 = operand1.slice(1);
+      output.textContent = operand1;
+    } else {
+      operand1 = "-" + operand1;
+      output.textContent = operand1;
+    }
+  } else {
+    if (operator != "") {
+      if (operand2 === "") {
+        operand2 = operand1;
 
-function handlePercent() {}
+        let button = document.getElementById(operator);
+        button.classList.remove("select");
+        button.classList.add("unselect");
 
-function handleDot() {}
+        setTimeout(function () {
+          button.classList.remove("unselect");
+        }, 250);
+      }
+
+      if (operand2[0] === "-") {
+        operand2 = operand2.slice(1);
+        output.textContent = operand2;
+      } else {
+        operand2 = "-" + operand2;
+        output.textContent = operand2;
+      }
+    } else {
+      if (operand1[0] === "-") {
+        operand1 = operand1.slice(1);
+        output.textContent = operand1;
+      } else {
+        operand1 = "-" + operand1;
+        output.textContent = operand1;
+      }
+    }
+  }
+}
+
+function handlePercent() {
+  if (calculationState === "finished") {
+    operand1 = (Number(operand1) / 100).toString();
+    output.textContent = operand1;
+  } else {
+    if (operator != "") {
+      if (operand2 === "") {
+        operand2 = operand1;
+
+        let button = document.getElementById(operator);
+        button.classList.remove("select");
+        button.classList.add("unselect");
+
+        setTimeout(function () {
+          button.classList.remove("unselect");
+        }, 250);
+      }
+
+      operand2 = (Number(operand2) / 100).toString();
+      output.textContent = operand2;
+    } else {
+      operand1 = (Number(operand1) / 100).toString();
+      output.textContent = operand1;
+    }
+  }
+}
+
+function handleDot() {
+  if (calculationState === "finished") {
+    if (operand1.length < 7) {
+      if (!operand1.includes(".")) {
+        operand1 += ".";
+      }
+    }
+    output.textContent = operand1;
+  } else {
+    if (operator != "") {
+      if (operand2 === "") {
+        operand2 = operand1;
+
+        let button = document.getElementById(operator);
+        button.classList.remove("select");
+        button.classList.add("unselect");
+
+        setTimeout(function () {
+          button.classList.remove("unselect");
+        }, 250);
+      }
+
+      if (operand2.length < 7) {
+        if (!operand2.includes(".")) {
+          operand2 += ".";
+        }
+      }
+      output.textContent = operand2;
+    } else {
+      if (operand1.length < 7) {
+        if (!operand1.includes(".")) {
+          operand1 += ".";
+        }
+      }
+      output.textContent = operand1;
+    }
+  }
+}
 
 function handleEquals() {
   if (operator != "") {
