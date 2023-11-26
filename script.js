@@ -398,6 +398,14 @@ function handleNumber(number) {
 }
 
 function addTapAnimation(button) {
+  if (button.id === "0") {
+    for (const child of button.children) {
+      child.classList.add("tap");
+      setTimeout(function () {
+        child.classList.remove("tap");
+      }, 500);
+    }
+  }
   button.classList.add("tap");
   setTimeout(function () {
     button.classList.remove("tap");
