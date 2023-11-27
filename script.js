@@ -142,23 +142,18 @@ buttons.addEventListener("click", (event) => {
   switch (buttonId) {
     case "clear":
       handleClear();
-      addTapAnimation(button);
       break;
     case "+/-":
       handleChangeSign();
-      addTapAnimation(button);
       break;
     case "%":
       handlePercent();
-      addTapAnimation(button);
       break;
     case ".":
       handleDot();
-      addTapAnimation(button);
       break;
     case "=":
       handleEquals();
-      addTapAnimation(button);
       break;
     case "/":
     case "*":
@@ -177,7 +172,6 @@ buttons.addEventListener("click", (event) => {
     case "9":
     case "0":
       handleNumber(buttonId);
-      addTapAnimation(button);
   }
 });
 
@@ -215,6 +209,9 @@ function handleClear() {
     let button = document.getElementById("clear");
     button.textContent = "AC";
   }
+
+  const button = document.getElementById("clear");
+  addTapAnimation(button);
 }
 
 function handleChangeSign() {
@@ -257,6 +254,9 @@ function handleChangeSign() {
       }
     }
   }
+
+  const button = document.getElementById("+/-");
+  addTapAnimation(button);
 }
 
 function handlePercent() {
@@ -284,6 +284,9 @@ function handlePercent() {
       output.textContent = operand1;
     }
   }
+
+  const button = document.getElementById("%");
+  addTapAnimation(button);
 }
 
 function handleDot() {
@@ -323,6 +326,9 @@ function handleDot() {
       output.textContent = operand1;
     }
   }
+
+  const button = document.getElementById(".");
+  addTapAnimation(button);
 }
 
 function handleEquals() {
@@ -340,6 +346,9 @@ function handleEquals() {
     operate();
     calculationState = "finished";
   }
+
+  const button = document.getElementById("=");
+  addTapAnimation(button);
 }
 
 function handleOperator(op) {
@@ -391,10 +400,13 @@ function handleNumber(number) {
     }
   }
 
-  let button = document.getElementById("clear");
-  if ((button.textContent = "AC")) {
-    button.textContent = "C";
+  let clearButton = document.getElementById("clear");
+  if ((clearButton.textContent = "AC")) {
+    clearButton.textContent = "C";
   }
+
+  const button = document.getElementById(number);
+  addTapAnimation(button);
 }
 
 function addTapAnimation(button) {
@@ -416,3 +428,46 @@ function addSelectAnimation() {
   let button = document.getElementById(operator);
   button.classList.add("select");
 }
+
+document.addEventListener("keydown", (event) => {
+  const pressedKey = event.key;
+
+  if (event.ctrlKey && pressedKey === "-") {
+    handleChangeSign();
+    return;
+  }
+
+  switch (pressedKey) {
+    case "Backspace":
+    case "Escape":
+      handleClear();
+      break;
+    case "%":
+      handlePercent();
+      break;
+    case ".":
+      handleDot();
+      break;
+    case "=":
+    case "Enter":
+      handleEquals();
+      break;
+    case "/":
+    case "*":
+    case "+":
+    case "-":
+      handleOperator(pressedKey);
+      break;
+    case "1":
+    case "2":
+    case "3":
+    case "4":
+    case "5":
+    case "6":
+    case "7":
+    case "8":
+    case "9":
+    case "0":
+      handleNumber(pressedKey);
+  }
+});
