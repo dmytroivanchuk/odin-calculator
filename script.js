@@ -366,17 +366,7 @@ function handleOperator(op) {
 }
 
 function handleNumber(number) {
-  if (operator != "") {
-    if (operand2.length < 7) {
-      if (operand2 === "0") {
-        operand2 = number;
-      } else {
-        operand2 += number;
-      }
-
-      output.textContent = operand2;
-    }
-  } else {
+  if (calculationState === "finished") {
     if (operand1.length < 7) {
       if (operand1 === "0") {
         operand1 = number;
@@ -386,22 +376,42 @@ function handleNumber(number) {
 
       output.textContent = operand1;
     }
-  }
+  } else {
+    if (operator != "") {
+      if (operand2.length < 7) {
+        if (operand2 === "0") {
+          operand2 = number;
+        } else {
+          operand2 += number;
+        }
 
-  if (operator != "") {
-    let button = document.getElementById(operator);
-    if (button.classList.contains("select")) {
-      button.classList.remove("select");
-      button.classList.add("unselect");
+        output.textContent = operand2;
+      }
 
-      setTimeout(function () {
-        button.classList.remove("unselect");
-      }, 250);
+      let button = document.getElementById(operator);
+      if (button.classList.contains("select")) {
+        button.classList.remove("select");
+        button.classList.add("unselect");
+
+        setTimeout(function () {
+          button.classList.remove("unselect");
+        }, 250);
+      }
+    } else {
+      if (operand1.length < 7) {
+        if (operand1 === "0") {
+          operand1 = number;
+        } else {
+          operand1 += number;
+        }
+
+        output.textContent = operand1;
+      }
     }
   }
 
   let clearButton = document.getElementById("clear");
-  if ((clearButton.textContent = "AC")) {
+  if (clearButton.textContent === "AC") {
     clearButton.textContent = "C";
   }
 
