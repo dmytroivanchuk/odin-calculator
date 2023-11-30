@@ -271,15 +271,17 @@ function handleNumber(number) {
       switch (operator) {
         case "":
           handleNumberIn(operand1, "operand1");
+          if (operand1 != "0" && clearButton.textContent === "AC") {
+            clearButton.textContent = "C";
+          }
           break;
         default:
           handleNumberIn(operand2, "operand2");
+          if (clearButton.textContent === "AC") {
+            clearButton.textContent = "C";
+          }
           addUnselectAnimation();
       }
-  }
-
-  if (clearButton.textContent === "AC") {
-    clearButton.textContent = "C";
   }
 
   const numberButton = document.getElementById(number);
